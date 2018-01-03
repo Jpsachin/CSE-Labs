@@ -13,6 +13,10 @@
 // The Portable Operating System Interface is a family of standards specified by the IEEE Computer Society for maintaining compatibility between operating systems
 #include<unistd.h>
 
+// header provides a definition for struct passwd used for getting users from  /etc/passwd
+#include <pwd.h>
+
+#include <sys/stat.h>
 
 char path[200];
 
@@ -23,6 +27,7 @@ void dl();
 void lu();
 void amodown();
 void mask();
+void changeOwn();
 void getPath();
 int createFile();
 
@@ -34,7 +39,7 @@ int main(){
 
 	loop:
 
-	printf("==== MENU ===\n\n1.Create, Open, Write, Read, Close a File\n2. Duplicate, lseek\n3. Link, Unlink\n4. Access, Chmod, Chown\n5. Add a Mask\n\n");
+	printf("==== MENU ===\n\n1.Create, Open, Write, Read, Close a File\n2. Duplicate, lseek\n3. Link, Unlink\n4. Access, Chmod\n5. Add a Mask\n6. Change ownership of file\n\n");
 	printf("Enter choice: ");
 	scanf("%d", &choice);
 
@@ -52,6 +57,9 @@ int main(){
 			amodown();
 		case 5:
 			mask();
+			break;
+		case 6:
+			changeOwn();
 	}
 
 
@@ -318,7 +326,6 @@ void amodown(){
     int fileDescriptor = creat(path, S_IRUSR);
 	if (fileDescriptor == -1){
 		printf("=>=> Error while creating file\n");
-		return -1;
 	}
 	close(fileDescriptor);
 
@@ -394,7 +401,6 @@ void mask(){
     int fileDescriptor = creat(path, S_IRUSR | S_IWUSR);
 	if (fileDescriptor == -1){
 		printf("=>=> Error while creating file\n");
-		return -1;
 	}
 	close(fileDescriptor);
 
@@ -422,7 +428,59 @@ void mask(){
 }
 
 
+/**
+ * chown: change ownership of a file
+ */
+void changeOwn(){
 
+	getPath();
+
+	// create with READ access for user
+    int fileDescriptor = creat(path, S_IRUSR);
+	if (fileDescriptor == -1){
+		printf("=>=> Error while creating file\n");
+	}
+	close(fileDescriptor);
+
+	printf("\n\nFile created with creat() Write permission to user and Read permission to user ()\n");
+
+
+	// open file information and check owner info
+
+	struct stat info;
+	// obtain information about the named file
+	stat(path, &info);
+	printf("\noriginal owner was %d and group was %d\n", info.st_uid, info.st_gid);
+
+	char username[100];
+	printf("Enter username to change access: ");
+	gets(username);
+
+	uid_t uid;
+    gid_t gid;
+    struct passwd *pwd;
+    struct group  *grp;
+
+
+    pwd = getpwnam(username);
+
+    if (pwd == NULL) {
+        printf("\nUsername doesn't exists\n\n");
+    }
+
+    printf("\nowner id %d and group id %d\n", pwd->pw_uid, pwd->pw_gid);
+
+
+	if (chown(path, 25, 0) != 0)
+      perror("\n\nchown() error:");
+    else {
+
+		// obtain information about the named file
+		stat(path, &info);
+		printf("\nNew owner was %d and group was %d\n", info.st_uid, info.st_gid);
+
+    }
+}
 
 
 

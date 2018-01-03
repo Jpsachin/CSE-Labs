@@ -247,6 +247,7 @@ void fe(){
         printf("\nChild process: (to be replaced by ls command)\n\n");
 
         // replace this child process image with ls process
+        // (path, other arguments to be passed to new process)
         execl("/bin/ls", "ls", "-l", (char *)0);
     }
     else{
