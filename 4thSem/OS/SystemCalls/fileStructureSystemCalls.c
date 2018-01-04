@@ -16,8 +16,16 @@
 // header provides a definition for struct passwd used for getting users from  /etc/passwd
 #include <pwd.h>
 
+// header file for stat structure for getting file information
 #include <sys/stat.h>
 
+
+// header for cd rom related macros
+#include <linux/cdrom.h>
+
+// header for input output control function
+#include <sys/ioctl.h>
+ 
 char path[200];
 
 
@@ -28,6 +36,7 @@ void lu();
 void amodown();
 void mask();
 void changeOwn();
+void ioc();
 void getPath();
 int createFile();
 
@@ -39,7 +48,7 @@ int main(){
 
 	loop:
 
-	printf("==== MENU ===\n\n1.Create, Open, Write, Read, Close a File\n2. Duplicate, lseek\n3. Link, Unlink\n4. Access, Chmod\n5. Add a Mask\n6. Change ownership of file\n\n");
+	printf("==== MENU ===\n\n1.Create, Open, Write, Read, Close a File\n2. Duplicate, lseek\n3. Link, Unlink\n4. Access, Chmod\n5. Add a Mask\n6. Change ownership of file\n7. IOCTL\n\n");
 	printf("Enter choice: ");
 	scanf("%d", &choice);
 
@@ -60,6 +69,9 @@ int main(){
 			break;
 		case 6:
 			changeOwn();
+			break;
+		case 7:
+			ioc();	
 	}
 
 
@@ -482,6 +494,32 @@ void changeOwn(){
     }
 }
 
+
+/**
+ * ioctl: Input output control, device-specific input/output operations
+ */ 
+void ioc(){
+
+	// Path to CD-ROM drive
+    char *dev = "/dev/dvd";
+    int fd = open(dev, O_RDONLY | O_NONBLOCK);
+
+    if(fd == -1){
+        printf("Failed to open '%s'\n", dev);
+        exit(1);
+    }
+
+    printf("fd :%d\n", fd);
+
+    // Eject the CD-ROM tray 
+    ioctl (fd, CDROMEJECT);
+    sleep(2);
+
+    // Close the CD-ROM tray
+    ioctl (fd, CDROMCLOSETRAY);
+    close(fd);
+
+}
 
 
 
