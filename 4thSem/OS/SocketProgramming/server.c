@@ -37,6 +37,7 @@ int main(){
     // htons(): converts host byte order to network byte order.
     serverAddr.sin_port = htons(5100);
     // specify server address 0.0.0.0
+    // used to bind socket to any ip address alloted to the system
     serverAddr.sin_addr.s_addr = INADDR_ANY;
 
 

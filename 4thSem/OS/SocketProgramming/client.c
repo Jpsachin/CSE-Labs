@@ -35,8 +35,9 @@ int main(){
     // use a random port preferably not in use
     // htons(): converts host byte order to network byte order.
     serverAddr.sin_port = htons(5100);
-    // specify server address 0.0.0.0
-    serverAddr.sin_addr.s_addr = INADDR_ANY;
+    // specify server address
+    // inet_addr: unsigned long value containing a suitable binary representation of the Internet address given.
+    serverAddr.sin_addr.s_addr = inet_addr("<Servers IP adderss>");
 
 
     // connect to server passing socketDescriptor, server address structure, size
