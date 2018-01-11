@@ -2,6 +2,7 @@
 
 // Reference
 // http://www.csd.uoc.gr/~hy556/material/tutorials/cs556-3rd-tutorial.pdf
+// https://www.ibm.com/support/knowledgecenter/en/SSLTBW_2.2.0/com.ibm.zos.v2r2.halc001/socket_parm.htm
 // https://stackoverflow.com/questions/16508685/understanding-inaddr-any-for-socket-programming
 
 #include <stdio.h>
@@ -14,7 +15,7 @@
 // header file for constants and structures needed for internet domain addresses
 #include <netinet/in.h>
 
-#define INTERNET_PROTOCOL 0
+#define DEFAULT_PROTOCOL 0
 
 int socketDescriptorClient;
 char msg[300];
@@ -24,8 +25,8 @@ struct sockaddr_in serverAddr;
 int main(){
 
 
-	// create socket for communication for the client with IPv4, TCP, IP types of protocols
-	if ((socketDescriptorClient = socket(AF_INET, SOCK_STREAM, INTERNET_PROTOCOL)) == -1) {
+	// create socket for communication for the client with IPv4, TCP type socket, TCP protocol
+	if ((socketDescriptorClient = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP)) == -1) {
         printf("\n\n=>=> Socket creation error \n\n");
         return -1;
     }
@@ -34,10 +35,11 @@ int main(){
     serverAddr.sin_family = AF_INET;
     // use a random port preferably not in use
     // htons(): converts host byte order to network byte order.
+    //  big-endian byte order is also referred to as network byte order.
     serverAddr.sin_port = htons(5100);
     // specify server address
     // inet_addr: unsigned long value containing a suitable binary representation of the Internet address given.
-    serverAddr.sin_addr.s_addr = inet_addr("<Servers IP adderss>");
+    serverAddr.sin_addr.s_addr = inet_addr("<SERVERS_IP_ADDRESS>");
 
 
     // connect to server passing socketDescriptor, server address structure, size
