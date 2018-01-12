@@ -23,6 +23,7 @@ char msg[300];
 char resBuffer[800];
 struct sockaddr_in clientAddr;
 struct sockaddr_in serverAddr;
+int serverAddrLength;
 
 int main(){
 
@@ -47,6 +48,9 @@ int main(){
     // request server
     while(1){
 
+		// set server socket struct size
+		serverAddrLength = sizeof(serverAddr);
+
     	// get message
     	printf("\n\nEnter message to send to Server: ");
     	gets(msg);
@@ -57,8 +61,8 @@ int main(){
     	}
     	else{
     	    printf("\n\nMessage sent\n\n");
-    		// wait for response passing socketDescriptor, buffer to store msg into, size, special flag (usually 0), in which sockaddr struct server address recieved
-    		int count = recvfrom(socketDescriptorClient, resBuffer, sizeof(resBuffer), 0, (struct sockaddr *) &serverAddr, sizeof(serverAddr));
+    		// wait for response passing socketDescriptor, buffer to store msg into, size, special flag (usually 0), in which sockaddr struct server address recieved, pointer to address where length is stored
+    		int count = recvfrom(socketDescriptorClient, resBuffer, sizeof(resBuffer), 0, (struct sockaddr *) &serverAddr, &serverAddrLength);
 
     		if(count > 0){
     		    printf("\n=>=> Response from Server: %s", resBuffer);

@@ -55,6 +55,9 @@ int main(){
     
         // client's socket address
         struct sockaddr_in clientAddr;
+
+        // varible for storing clients socket struct size
+        int clientAddrLength = sizeof(clientAddr);
             
         // end connection with current client
         int done = 1;
@@ -62,8 +65,8 @@ int main(){
         // respond to request
         while(done){
 
-            // wait for request passing socketDescriptorServer, buffer to store msg into, size, special flag (usually 0), with sockaddr_in struct for storing socket information about client's socket
-            int count = recvfrom(socketDescriptorServer, resBuffer, sizeof(resBuffer), 0, (struct sockaddr *) &clientAddr, sizeof(clientAddr));
+            // wait for request passing socketDescriptorServer, buffer to store msg into, size, special flag (usually 0), with sockaddr_in struct for storing socket information about client's socket, pointer to store size of clients socket struct
+            int count = recvfrom(socketDescriptorServer, resBuffer, sizeof(resBuffer), 0, (struct sockaddr *) &clientAddr, &clientAddrLength);
             printf("%d", count);
             if(count > 0){
             		printf("\n\n=>=> Response from Client: %s", resBuffer);
