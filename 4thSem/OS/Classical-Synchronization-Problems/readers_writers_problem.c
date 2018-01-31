@@ -6,9 +6,11 @@
 // semaphore support library
 #include<semaphore.h>
 
+#define N 5
+
 int data = 0, readerCount = 0;
 
-// semaphores for producers consumers problem
+// semaphores for readers, writers problem
 sem_t db, mutex;
 
 
@@ -101,17 +103,17 @@ int main() {
     
     // declare pthread (POSIX threads) ids
     // A thread is a single sequence stream within in a process
-    pthread_t read[5], write[5];
+    pthread_t read[N], write[N];
     
     // create readers and writer threads
     int i;
-    for (i = 0; i <= 5; i++) {
+    for (i = 0; i <= N; i++) {
         pthread_create(&write[i], NULL, writer, (void *)i);
         pthread_create(&read[i], NULL, reader, (void *)i);
     }
     
     // join threads
-    for (i = 0; i <= 5; i++) {
+    for (i = 0; i <= N; i++) {
         pthread_join(write[i], NULL);
         pthread_join(read[i], NULL);
     }

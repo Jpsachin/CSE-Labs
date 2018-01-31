@@ -18,10 +18,10 @@ int main() {
 
     // process variables
     int n = NO_OF_PROCESSES;
-    int burstTime[NO_OF_PROCESSES] = {8, 4, 9, 5};
-    int c_burstTime[NO_OF_PROCESSES] = {8, 4, 9, 5};
-    int arrivalTime[NO_OF_PROCESSES] = {0, 1, 2, 3};
-    int c_arrivalTime[NO_OF_PROCESSES] = {0, 1, 2, 3};
+    int burstTime[NO_OF_PROCESSES] = {7, 4, 1, 4};
+    int c_burstTime[NO_OF_PROCESSES] = {7, 4, 1, 4};
+    int arrivalTime[NO_OF_PROCESSES] = {0, 2, 4, 5};
+    int c_arrivalTime[NO_OF_PROCESSES] = {0, 2, 4, 5};
 
     // initialize process id
     int j;
@@ -65,39 +65,40 @@ void shortestJobFirst(int n, int b[], int c_b[], int a[]) {
     int time = 0;
 
     int noOfProcessesCompleted = 0;
-
-    // repeat till completion of all processes
-    while (noOfProcessesCompleted < n){
-
-        // sort as per burst time considering processes which are present at this time
-        for (i = noOfProcessesCompleted; i < n - 1 && a[i] <= time; i++) {
-
-            for (j = i + 1; j < n && a[j] <= time; j++) {
-
-                if (b[i] > b[j]){
-                    int tmp = b[i];
-                    b[i] = b[j];
-                    b[j] = tmp;
-
-                    tmp = a[i];
-                    a[i] = a[j];
-                    a[j] = tmp;
-
-                    tmp = waitingTime[i];
-                    waitingTime[i] = waitingTime[j];
-                    waitingTime[j] = tmp;
-
-                    tmp = pid[i];
-                    pid[i] = pid[j];
-                    pid[j] = tmp;
-                }
+    
+    // sort as per burst time considering processes which are present at this time
+    for (i = noOfProcessesCompleted; i < n - 1 && a[i] <= time; i++) {
+        
+        for (j = i + 1; j < n && a[j] <= time; j++) {
+        
+            if (b[i] > b[j]){
+                int tmp = b[i];
+                b[i] = b[j];
+                b[j] = tmp;
+        
+                tmp = a[i];
+                a[i] = a[j];
+                a[j] = tmp;
+        
+                tmp = waitingTime[i];
+                waitingTime[i] = waitingTime[j];
+                waitingTime[j] = tmp;
+        
+                tmp = pid[i];
+                pid[i] = pid[j];
+                pid[j] = tmp;
             }
         }
+    }
+
+    // repeat until all processes execute
+    while (noOfProcessesCompleted < n){
 
         // printf("++++++++++++++++++++++++++ %d %d\n", time, noOfProcessesCompleted);
         //     for (i = 0; i < n; i++) {
         //         printf("%d\t\t\t%d\t\t\t%d\t\t\t%d\n\n", pid[i], a[i], b[i], waitingTime[i]);
         // }
+
 
         // check if process is present in buffer
         if (a[noOfProcessesCompleted] <= time) {
@@ -108,7 +109,7 @@ void shortestJobFirst(int n, int b[], int c_b[], int a[]) {
                 // printf("\n%d\n", noOfProcessesCompleted);
 
             }
-
+    
             // update waiting time for the other processes
             for (i = noOfProcessesCompleted + 1; i < n && a[i] <= time; i++) {
                 waitingTime[i]++;
@@ -116,8 +117,35 @@ void shortestJobFirst(int n, int b[], int c_b[], int a[]) {
 
             // check if current process has completed
             if (b[noOfProcessesCompleted] == 0){
+                
+                // increase completed processes count
                 noOfProcessesCompleted++;
                 // printf("\n%d\n", noOfProcessesCompleted - 1);
+                
+                // sort as per burst time considering processes which are present at this time
+                for (i = noOfProcessesCompleted; i < n - 1 && a[i] <= time; i++) {
+        
+                    for (j = i + 1; j < n && a[j] <= time; j++) {
+        
+                        if (b[i] > b[j]){
+                            int tmp = b[i];
+                            b[i] = b[j];
+                            b[j] = tmp;
+        
+                            tmp = a[i];
+                            a[i] = a[j];
+                            a[j] = tmp;
+        
+                            tmp = waitingTime[i];
+                            waitingTime[i] = waitingTime[j];
+                            waitingTime[j] = tmp;
+        
+                            tmp = pid[i];
+                            pid[i] = pid[j];
+                            pid[j] = tmp;
+                        }
+                    }
+                }
             }
 
             // printf("++++++++++++++++++++++++++ %d %d\n", time, noOfProcessesCompleted);

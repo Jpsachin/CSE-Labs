@@ -15,7 +15,7 @@ int buffer[N];
 int in = 0, out = 0;
 
 
-// semaphores for producers consumers problem
+// semaphores for producer consumer problem
 sem_t mutex, full, empty;
 
 
