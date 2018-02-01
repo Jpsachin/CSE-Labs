@@ -10,7 +10,7 @@ int totalTurnAroundTime = 0;
 int totalWaitingTime = 0;
 
 // function declarations
-void shortestJobFirst(int, int [], int[], int[]);
+void shortestJobFirstNonPreemptive(int, int [], int[], int[]);
 
 
 
@@ -18,10 +18,10 @@ int main() {
 
     // process variables
     int n = NO_OF_PROCESSES;
-    int burstTime[NO_OF_PROCESSES] = {7, 4, 1, 4};
-    int c_burstTime[NO_OF_PROCESSES] = {7, 4, 1, 4};
-    int arrivalTime[NO_OF_PROCESSES] = {0, 2, 4, 5};
-    int c_arrivalTime[NO_OF_PROCESSES] = {0, 2, 4, 5};
+    int burstTime[NO_OF_PROCESSES] = {2, 3, 8, 6};
+    int c_burstTime[NO_OF_PROCESSES] = {2, 3, 8, 6};
+    int arrivalTime[NO_OF_PROCESSES] = {0, 2, 3, 4};
+    int c_arrivalTime[NO_OF_PROCESSES] = {0, 2, 3, 4};
 
     // initialize process id
     int j;
@@ -30,7 +30,7 @@ int main() {
     }
 
     // implement the algorithm
-    shortestJobFirst(n, burstTime, c_burstTime, arrivalTime);
+    shortestJobFirstNonPreemptive(n, burstTime, c_burstTime, arrivalTime);
 
 
 
@@ -56,9 +56,9 @@ int main() {
 
 
 /**
- *  Shortest Job First Scheduling Algorithm
+ *  Shortest Job First Non Preemptive with Arrival Time Scheduling Algorithm
  */
-void shortestJobFirst(int n, int b[], int c_b[], int a[]) {
+void shortestJobFirstNonPreemptive(int n, int b[], int c_b[], int a[]) {
 
     int i, j;
 
