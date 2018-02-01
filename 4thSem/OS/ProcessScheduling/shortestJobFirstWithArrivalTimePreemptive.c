@@ -18,10 +18,10 @@ int main() {
 
     // process variables
     int n = NO_OF_PROCESSES;
-    int burstTime[NO_OF_PROCESSES] = {8, 4, 9, 5};
-    int c_burstTime[NO_OF_PROCESSES] = {8, 4, 9, 5};
-    int arrivalTime[NO_OF_PROCESSES] = {0, 1, 2, 3};
-    int c_arrivalTime[NO_OF_PROCESSES] = {0, 1, 2, 3};
+    int burstTime[NO_OF_PROCESSES] = {2, 3, 8, 6};
+    int c_burstTime[NO_OF_PROCESSES] = {2, 3, 8, 6};
+    int arrivalTime[NO_OF_PROCESSES] = {0, 2, 3, 4};
+    int c_arrivalTime[NO_OF_PROCESSES] = {0, 2, 3, 4};
 
     // initialize process id
     int j;
@@ -56,7 +56,7 @@ int main() {
 
 
 /**
- *  Shortest Job First Scheduling Algorithm
+ *  Shortest Job First Preemptive with Arrival Time Algorithm
  */
 void shortestJobFirst(int n, int b[], int c_b[], int a[]) {
 
