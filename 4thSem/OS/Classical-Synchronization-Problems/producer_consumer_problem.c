@@ -30,7 +30,7 @@ void initSemaphores() {
     sem_init(&mutex, 0, 1);
     
     // full check semaphore
-    sem_init(&full, 0, 1);
+    sem_init(&full, 0, 0);
     
     // empty check semaphore
     sem_init(&empty, 0, N);

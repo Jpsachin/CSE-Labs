@@ -101,18 +101,15 @@ void fwk(){
     }
 
 
-	// kill child
+	// send kill syscall child
     if(pid == 0){
 
-    	printf("Killed child process from child itself!");
-
-		kill(pid, SIGHUP);
     }
 
     else if (pid > 0){
-    	printf("Killed child process from parent!");
+    	printf("SIGINT signal sent to child process from parent through kill sycall !");
 
-		kill(pid, SIGHUP);
+		kill(pid, SIGINT);
     }
 
 

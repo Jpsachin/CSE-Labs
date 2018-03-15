@@ -38,7 +38,7 @@ void CheckSafeState() {
                     avail_resources[0] += alloc_resources[i][0];
                     avail_resources[1] += alloc_resources[i][1];
                     avail_resources[2] += alloc_resources[i][2];
-                    printf("\n\n%d %d %d\n\n", avail_resources[0], avail_resources[1], avail_resources[2]);
+                    // printf("\n\n%d %d %d\n\n", avail_resources[0], avail_resources[1], avail_resources[2]);
                     safe_order[completed_processes] = i;
                     completed_processes++;
                     
@@ -89,11 +89,14 @@ int main() {
     scanf("%d %d %d", &req_resources[0], &req_resources[1], &req_resources[2]);
     
     if (req_resources[0] > avail_resources[0] || req_resources[1] > avail_resources[1] || req_resources[2] > avail_resources[2]) {
+        printf("\nIncorrect request!\n\n");
+        exit(0);    
         
-        if (req_resources[0] > need_resources[pid][0] || req_resources[1] > need_resources[pid][1] || req_resources[2] > need_resources[pid][2]) {
-            printf("\nIncorrect request!\n\n");
-            exit(0);
-        }
+    }
+
+    if (req_resources[0] > need_resources[pid][0] || req_resources[1] > need_resources[pid][1] || req_resources[2] > need_resources[pid][2]) {
+        printf("\nIncorrect request!\n\n");
+        exit(0);
     }
     
     // update the processes reources

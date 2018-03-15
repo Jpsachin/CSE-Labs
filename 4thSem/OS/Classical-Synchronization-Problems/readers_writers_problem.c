@@ -107,13 +107,13 @@ int main() {
     
     // create readers and writer threads
     int i;
-    for (i = 0; i <= N; i++) {
+    for (i = 0; i < N; i++) {
         pthread_create(&write[i], NULL, writer, (void *)i);
         pthread_create(&read[i], NULL, reader, (void *)i);
     }
     
     // join threads
-    for (i = 0; i <= N; i++) {
+    for (i = 0; i < N; i++) {
         pthread_join(write[i], NULL);
         pthread_join(read[i], NULL);
     }
