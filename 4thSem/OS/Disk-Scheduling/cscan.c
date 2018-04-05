@@ -48,18 +48,17 @@ int main() {
     }
     
     // go till the end 
-    total_dist += abs(curr_pos - size + 1); 
+    total_dist += abs(curr_pos - size + 1);
     printf("From %d to %d\n", curr_pos, size - 1);
-    printf("Distance moved: %d\n", abs(size - 1 - curr_pos)); 
-    curr_pos = size - 1;    
+    printf("Distance moved: %d\n", abs(size -1 - curr_pos)); 
+    curr_pos = 0; 
 
     // respond to all requests to the left
-    for (i = curr_req_greater - 1; i >= 0; i--) {
+    for (i = 0  ; i <= curr_req_greater - 1; i++) {
         printf("From %d to %d\n", curr_pos, requests[i]);
         printf("Distance moved: %d\n", abs(requests[i] - curr_pos)); 
         total_dist += abs(requests[i] - curr_pos);
         curr_pos = requests[i];
-           
     }
    
     printf("Total distance moved: %d", total_dist);
