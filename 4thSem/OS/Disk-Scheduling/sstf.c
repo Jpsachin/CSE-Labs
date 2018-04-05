@@ -42,18 +42,34 @@ int main() {
     int curr_req_smaller = curr_req_greater - 1;
 
     while(n > 0) {
-        if (curr_req_greater < n && (requests[curr_req_greater] - curr_pos <= curr_pos - requests[curr_req_smaller])) {
+        if (curr_req_greater < n && (abs(requests[curr_req_greater] - curr_pos) <= abs(curr_pos - requests[curr_req_smaller]))) {
             printf("From %d to %d\n", curr_pos, requests[curr_req_greater]);
-            printf("Distance moved: %d\n", requests[curr_req_greater] - curr_pos); 
-            total_dist += requests[curr_req_greater] - curr_pos;
+            printf("Distance moved: %d\n", abs(requests[curr_req_greater] - curr_pos)); 
+            total_dist += abs(requests[curr_req_greater] - curr_pos);
             curr_pos = requests[curr_req_greater];
             curr_req_greater++;
             n--;
         }
-        else if (curr_req_smaller >= 0 && (requests[curr_req_greater] - curr_pos >= curr_pos - requests[curr_req_smaller])) {
+        else if (curr_req_smaller >= 0 && (abs(requests[curr_req_greater] - curr_pos) >= abs(curr_pos - requests[curr_req_smaller]))) {
             printf("From %d to %d\n", curr_pos, requests[curr_req_smaller]);
-            printf("Distance moved: %d\n", requests[curr_req_smaller] - curr_pos); 
-            total_dist += curr_pos - requests[curr_req_smaller];
+            printf("Distance moved: %d\n", abs(requests[curr_req_smaller] - curr_pos)); 
+            total_dist += abs(requests[curr_req_smaller] - curr_pos);
+            curr_pos = requests[curr_req_smaller];
+            curr_req_smaller--;
+            n--;
+        }
+        else if (curr_req_smaller < 0) {
+            printf("From %d to %d\n", curr_pos, requests[curr_req_greater]);
+            printf("Distance moved: %d\n", abs(requests[curr_req_greater] - curr_pos)); 
+            total_dist += abs(requests[curr_req_greater] - curr_pos);
+            curr_pos = requests[curr_req_greater];
+            curr_req_greater++;
+            n--;
+        }
+        else if (curr_req_greater >= n) {
+            printf("From %d to %d\n", curr_pos, requests[curr_req_smaller]);
+            printf("Distance moved: %d\n", abs(requests[curr_req_smaller] - curr_pos)); 
+            total_dist += abs(requests[curr_req_smaller] - curr_pos);
             curr_pos = requests[curr_req_smaller];
             curr_req_smaller--;
             n--;
@@ -79,3 +95,5 @@ void sort() {
         }
     }
 }
+
+// 53 200 8 98 14 37 122 64 124 67 183
